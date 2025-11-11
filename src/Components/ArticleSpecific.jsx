@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getArticlesById, getCommentsByArticleId } from "../api";
+import { getArticlesById, getCommentsByArticleId, patchArticleVotes } from "../api";
 
 function ArticleSpecific() {
   const { article_id } = useParams();
@@ -36,11 +36,21 @@ function ArticleSpecific() {
 }, [article_id])
 
   const handleVoteUp = () => {
-    setVotes((prev) => prev + 1)
+    patchArticleVotes(article_id, 1)
+    .then((data) => {
+      setVotes(data.article.votes)})
+      .catch((err) => {
+        console.error("Vote failed:", error)
+      })
   };
 
   const handleVoteDown = () => {
-    setVotes((prev) => prev - 1)
+    patchArticleVotes(article_id, -1)
+    .then((data) => {
+      setVotes(data.article.votes)})
+      .catch((err) => {
+        console.error("Vote failed:", error)
+      })
   };
   
 

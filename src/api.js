@@ -42,5 +42,22 @@ function getCommentsByArticleId(id){
   );
 }
 
+function patchArticleVotes (article_id, voteChange) {
+    return fetch(`https://nc-news-be-98uw.onrender.com/api/articles/${article_id}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({inc_votes: voteChange})
+    }).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject({
+          status: res.status,
+          msg: `Failed to patch votes`,
+        });
+      }
+      return res.json();
+    }
+  );
+}
 
-export {getArticles, getArticlesById, getCommentsByArticleId}
+export {getArticles, getArticlesById, getCommentsByArticleId, patchArticleVotes}
