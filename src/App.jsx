@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import"./New.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "./Components/Header";
 import LandingPage from "./Components/LandingPage";

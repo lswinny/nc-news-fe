@@ -1,50 +1,83 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getArticlesById } from "../api";
+import { getArticlesById, getCommentsByArticleId } from "../api";
 
 function ArticleSpecific() {
   const { article_id } = useParams();
   const [article, setArticle] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [comments, setComments] = useState(null)
+  const [articleIsLoading, setArticleIsLoading] = useState(true);
+  const [commentsIsLoading, setCommentsIsLoading] = useState(true);
+  const [votes, setVotes] = useState(0)
+  
 
   useEffect(() => {
     getArticlesById(article_id).then((data) => {
       setArticle(data.article);
-      setIsLoading(false);
+      setVotes(data.article.votes);
+      setArticleIsLoading(false);     
     })
   .catch((error) => {
    console.error("Error fetching article:", error);
    setArticle(null);
-   setIsLoading(false);
-  })}, [article_id])
+   setArticleIsLoading (false);
+  })
 
-  const handleThumbsUp = () => {
+  getCommentsByArticleId(article_id).then((data) => {
+    console.log(data)
+    setComments(data.comments);
+    setCommentsIsLoading(false);
+  })
+  .catch((error) => {
+    console.error("Error fetching comments:");
+    setComments(null);
+    setCommentsIsLoading(false);
+  })
+}, [article_id])
+
+  const handleVoteUp = () => {
     setVotes((prev) => prev + 1)
   };
 
-  const handleThumbsDown = () => {
+  const handleVoteDown = () => {
     setVotes((prev) => prev - 1)
   };
   
 
-  if (isLoading) return <p>Loading...</p>;
+  if (articleIsLoading || commentsIsLoading) return <p>Loading...</p>;
   if (!article) return <p>Article not found.</p>;
   
   return (
-    <section className="article-card-specific" key={article.article_id}>
-      <h2>{article.title}</h2>
+    <><h2>{article.title}</h2>
+    <section className="article-specific-layout">
+      <div id="article-specific-card" key={article.article_id}>
       <img src={article.article_img_url} alt={article.title} />
-      <div className="all-p-tags">
+      <h3 className="all-p-tags">
       <p>Author: {article.author}</p>
       <p>Topic: {article.topic}</p>
       <p>Comments: {article.comment_count}</p>
-      <p>Created: {new Date(article.created_at).toLocaleString()}</p>
-      <p>Votes: {article.votes} <button onClick={handleThumbsUp}>👍</button> <button onClick={handleThumbsDown}>👎</button></p>
-      </div>
+      <p>{new Date(article.created_at).toLocaleString()}</p>
+      <p>Votes: {votes}</p> 
+      <button onClick={handleVoteUp}>👍</button>
+      <button onClick={handleVoteDown}>👎</button>
+      </h3>
       <div className="article-body">
         <p>{article.body}</p>
       </div>
+      </div> 
+      <div id="article-specific-comments">
+        <h3> ____Comments____</h3>
+        {comments.map((comment) => ( 
+          <div className="single-comment-card" key={comment.comment_id}>
+          <h3>{comment.author}</h3>
+          <p>{new Date(comment.created_at).toLocaleString()}</p>
+          <p>{comment.body}</p>
+          <p>Votes: {comment.votes}</p>
+          </div>
+        ))}
+      </div>
       </section>
+      </>
   );
 }
  

@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getArticles, getArticlesById } from "../api";
@@ -30,7 +29,7 @@ function Articles() {
         {articles.map((article) => (
           <div className="article-card-all" key={article.article_id}>
             <Link to={`${article.article_id}`}> <img src={article.article_img_url} alt={article.title}/></Link>
-            <h3 >Title: {article.title}</h3>
+            <h3>Title: {article.title}</h3>
             <p>Author: {article.author}</p>
             <p>Topic: {article.topic.charAt(0).toUpperCase() + article.topic.slice(1)}</p>
             <p>Votes: {article.votes}</p>

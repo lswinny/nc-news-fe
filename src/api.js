@@ -15,8 +15,6 @@ function getArticles() {
 }
 
 function getArticlesById(id){
-  console.log("Getting Articles By ID ", id, typeof id);
-
     return fetch(`https://nc-news-be-98uw.onrender.com/api/articles/${id}`).then(
     (res) => {
       if (!res.ok) {
@@ -30,4 +28,19 @@ function getArticlesById(id){
   );
 }
 
-export {getArticles, getArticlesById}
+function getCommentsByArticleId(id){
+    return fetch(`https://nc-news-be-98uw.onrender.com/api/articles/${id}/comments`).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject({
+          status: res.status,
+          msg: `Failed to fetch article ${id} comments`,
+        });
+      }
+      return res.json();
+    }
+  );
+}
+
+
+export {getArticles, getArticlesById, getCommentsByArticleId}
