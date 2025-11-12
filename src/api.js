@@ -60,4 +60,48 @@ function patchArticleVotes (article_id, voteChange) {
   );
 }
 
-export {getArticles, getArticlesById, getCommentsByArticleId, patchArticleVotes}
+function getUsers(){
+    return fetch(`https://nc-news-be-98uw.onrender.com/api/users`).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject({
+          status: res.status,
+          msg: `Failed to fetch users`,
+        });
+      }
+      return res.json();
+    }
+  );
+}
+
+function postComment (article_id, commentData) {
+    return fetch(`https://nc-news-be-98uw.onrender.com/api/articles/${article_id}/comments`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(commentData)
+    }).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject(res)
+      }
+      return res.json();
+    });
+}
+
+function deleteComment (comment_id) {
+  return fetch(`https://nc-news-be-98uw.onrender.com/api/comments/${comment_id}`, {
+      method: "DELETE",
+    }).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject({
+          status: res.status,
+          msg: `Failed to delete comment`,
+        });
+      }
+      return res.json();
+    }
+  );
+}
+
+export {getArticles, getArticlesById, getCommentsByArticleId, patchArticleVotes, getUsers, postComment, deleteComment}
