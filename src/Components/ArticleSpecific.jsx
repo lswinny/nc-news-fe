@@ -7,7 +7,9 @@ function ArticleSpecific({username}) {
   const { article_id } = useParams();
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [votes, setVotes] = useState(0)
+  const [votes, setVotes] = useState(0);
+  const[hasVotedUp, setHasVotedUp] = useState(false);
+  const [hasVotedDown, setHasVotedDown] = useState(false);
   
 
   useEffect(() => {
@@ -24,19 +26,25 @@ function ArticleSpecific({username}) {
 }, [article_id])
 
   const handleVoteUp = () => {
+    if(hasVotedUp || hasVotedDown) return;
     patchArticleVotes(article_id, 1)
     .then((data) => {
-      setVotes(data.article.votes)})
-      .catch((err) => {
+      setVotes(data.article.votes)
+      setHasVotedUp(true)
+  })
+      .catch((error) => {
         console.error("Vote failed:", error)
       })
   };
 
   const handleVoteDown = () => {
+    if(hasVotedUp || hasVotedDown) return;
     patchArticleVotes(article_id, -1)
     .then((data) => {
-      setVotes(data.article.votes)})
-      .catch((err) => {
+      setVotes(data.article.votes)
+      setHasVotedDown(true)
+  })
+      .catch((error) => {
         console.error("Vote failed:", error)
       })
   };
@@ -56,8 +64,8 @@ function ArticleSpecific({username}) {
         <p>Comments: {article.comment_count}</p>
         <p>{new Date(article.created_at).toLocaleString()}</p>
         <p>Votes: {votes}</p> 
-        <button onClick={handleVoteUp}>👍</button>
-        <button onClick={handleVoteDown}>👎</button>
+        <button onClick={handleVoteUp} disabled={hasVotedUp || hasVotedDown}>👍</button>
+        <button onClick={handleVoteDown} disabled={hasVotedUp || hasVotedDown}>👎</button>
         </h3>
         <div className="article-body">
           <p>{article.body}</p>

@@ -5,9 +5,19 @@ function Comments({article_id, username}) {
   const [comments, setComments] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [newCommentBody, setNewCommentBody] = useState("")
+  const [isLoadingPosting, setIsLoadingPosting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-  getCommentsByArticleId(article_id).then((data) => {
+    if(newCommentBody) {
+      setError(null);
+    }
+  }, [newCommentBody])
+
+  useEffect(() => {
+  getCommentsByArticleId(article_id)
+  .then((data) => {
     setComments(data.comments);
     setIsLoading(false);
   })
@@ -20,24 +30,44 @@ function Comments({article_id, username}) {
 
 const handlePostComment = (event) => {
     event.preventDefault();
+    if(newCommentBody.length <2){
+      setError("Comment must be at least 2 characters.")
+      return;
+    }
+    setIsLoadingPosting(true);
+    setError(null);
+
     postComment(article_id, {
       author: username,
-      body: newCommentBody,
+      body: newCommentBody.trim(),
     })
-    .then((newComment) => {
-      setComments((prevComments) => [newComment, ...prevComments]);
-      setNewCommentBody("")})
+    .then(() => {
+      return getCommentsByArticleId(article_id)
+    })
+    .then(({comments}) => {
+      setComments(comments);
+      setNewCommentBody("");
+      setIsLoadingPosting(false)
+  })
       .catch((error) => {
-        console.error("Unable to post comment:", error)
+        console.error("Unable to post comment:", error);
+        setError("Failed to post comment. Please try again.")
+        setIsLoadingPosting(false);
       })
   };
 
   const handleDeleteComment = (comment_id) => {
+    setIsDeleting(true);
+    setError(null);
     deleteComment(comment_id)
     .then(() => {
-      setComments((prevComments) => prevComments.filter((comment) => comment.comment_id !== comment_id))})
+      setComments((prevComments) => prevComments.filter((comment) => comment.comment_id !== comment_id))
+      setIsDeleting(false)
+       })
       .catch((error) => {
         console.error("Unable to delete comment:", error)
+        setError("Failed to delete comment. Please try again.")
+        setIsDeleting(false);
       })
   };
   
@@ -56,8 +86,10 @@ const handlePostComment = (event) => {
             type="text"
             value={newCommentBody}
             onChange={(event) => {setNewCommentBody(event.target.value)}}
+            disabled={isLoadingPosting}
             ></input>
-            <button type="submit">Post</button>
+            <button type="submit" disabled={isLoadingPosting}>{isLoadingPosting ? "Posting..." : "Post Comment"}</button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
         {comments.map((comment) => ( 
           <div className="single-comment-card" key={comment.comment_id}>
@@ -65,7 +97,7 @@ const handlePostComment = (event) => {
           <p>{new Date(comment.created_at).toLocaleString()}</p>
           <p>{comment.body}</p>
           {comment.author === username && (
-          <button onClick={() => handleDeleteComment(comment.comment_id)}>Delete</button>
+          <button onClick={() => handleDeleteComment(comment.comment_id)} disabled={isDeleting}>{isDeleting ? "Deleting..." : "Delete"}</button>
           )}
           <p>Votes: {comment.votes}</p>
           </div>

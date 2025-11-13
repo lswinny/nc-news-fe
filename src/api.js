@@ -1,6 +1,4 @@
 function getArticles() {
-  console.log("Getting all articles");
-
   return fetch(`https://nc-news-be-98uw.onrender.com/api/articles`).then(
     (res) => {
       if (!res.ok) {
@@ -99,9 +97,22 @@ function deleteComment (comment_id) {
           msg: `Failed to delete comment`,
         });
       }
+    }
+  );
+}
+
+function getTopics () {
+    return fetch(`https://nc-news-be-98uw.onrender.com/api/topics`).then(
+    (res) => {
+      if (!res.ok) {
+        return Promise.reject({
+          status: res.status,
+          msg: `Failed to fetch topics`,
+        });
+      }
       return res.json();
     }
   );
 }
 
-export {getArticles, getArticlesById, getCommentsByArticleId, patchArticleVotes, getUsers, postComment, deleteComment}
+export {getArticles, getArticlesById, getCommentsByArticleId, patchArticleVotes, getUsers, postComment, deleteComment, getTopics}

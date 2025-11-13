@@ -18,6 +18,9 @@ useEffect(() => {
       <Link to="/articles">
         <button>View All Articles</button>
       </Link>
+      <Link to="/topics">
+        <button>View All Topics</button>
+      </Link>
       <Link to="/users">
         <button>View All Users</button>
       </Link>

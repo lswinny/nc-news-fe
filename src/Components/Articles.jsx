@@ -25,6 +25,7 @@ function Articles() {
 
   return (
     <>
+    <H2 className="page-headers">Articles</H2>
     <div className="article-list">
         {articles.map((article) => (
           <div className="article-card-all" key={article.article_id}>

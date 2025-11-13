@@ -24,6 +24,7 @@ function Users() {
 
   return (
     <>
+    <h2 className="page-headers">Users</h2>
       <div className="user-list">
         {users.map((user) => (
           <div className="user-card-all" key={user.username}>
