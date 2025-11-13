@@ -1,5 +1,5 @@
-function getArticles() {
-  return fetch(`https://nc-news-be-98uw.onrender.com/api/articles`).then(
+function getArticles(query = "") {
+  return fetch(`https://nc-news-be-98uw.onrender.com/api/articles${query}`).then(
     (res) => {
       if (!res.ok) {
         return Promise.reject({

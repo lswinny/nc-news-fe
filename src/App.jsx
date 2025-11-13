@@ -10,6 +10,7 @@ import Users from "./Components/Users";
 import { getUsers } from "./api";
 import UserProfile from "./Components/UserProfile";
 import Topics from "./Components/Topics";
+import TopicArticles from "./Components/TopicArticles";
 
 function App() {
   const [defaultUser, setDefaultUser] = useState(null);
@@ -39,6 +40,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="/topics" element={<Topics />} />
+          <Route path="/topic/:topic" element={<TopicArticles />} />
         </Routes>
       </main>
     </>

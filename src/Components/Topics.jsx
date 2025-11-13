@@ -26,14 +26,13 @@ if (!topics) return <p>Something went wrong loading topics.</p>;
   return (
     <>
     <h2 className="page-headers">Topics</h2>
-    <div className="topics-list">
+    <div className="topic-list">
         {topics.map((topic) => (
           <div className="topic-card-all" key={topic.slug}>
             <h3>{topic.slug.charAt(0).toUpperCase() + topic.slug.slice(1)}</h3>
             <p>{topic.description}</p>
-            <img src={topic.img_url} alt={"Picture: " + topic.slug} />
-            <Link to={`/topic/${topic}`}>
-                <button className="profile-button">View Topic</button>
+            <Link to={`/topic/${topic.slug}`}>
+                <button className="profile-button">View Related Articles</button>
               </Link>
           </div>
         ))}
