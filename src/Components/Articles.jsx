@@ -13,9 +13,8 @@ function Articles() {
     order,
   });
 
-  if (error) return <p>Error loading: {error.message}</p>;
+  if (error) return <p>Error: {error.message || "No articles found."}</p>;
   if (isLoading) return <p>Loading... </p>;
-  if (!articles) return <p>Something went wrong loading articles.</p>;
 
   return (
     <>

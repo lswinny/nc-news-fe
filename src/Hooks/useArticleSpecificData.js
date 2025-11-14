@@ -10,6 +10,7 @@ function useArticleSpecificData() {
   const [votes, setVotes] = useState(0);
   const[hasVotedUp, setHasVotedUp] = useState(false);
   const [hasVotedDown, setHasVotedDown] = useState(false);
+  const [thanksMsg, setThanksMsg] = useState(false);
 
   useEffect(() => {
     getArticlesById(article_id).then((data) => {
@@ -31,6 +32,7 @@ function useArticleSpecificData() {
     .then((data) => {
       setVotes(data.article.votes)
       setHasVotedUp(true)
+      setThanksMsg(true)
   })
       .catch((error) => {
         console.error("Vote failed:", error)
@@ -43,6 +45,7 @@ function useArticleSpecificData() {
     .then((data) => {
       setVotes(data.article.votes)
       setHasVotedDown(true)
+      setThanksMsg(true);
   })
       .catch((error) => {
         console.error("Vote failed:", error)
@@ -61,7 +64,8 @@ function useArticleSpecificData() {
     handleVoteUp,
     handleVoteDown,
     hasVotedUp,
-    hasVotedDown
+    hasVotedDown,
+    thanksMsg
   }
 }
  

@@ -9,9 +9,8 @@ function Topics () {
     error,
   } = useTopicsData();
 
-if (error) return <p>Error loading: {error.message}</p>;
+if (error) return <p>Error: {error.message || "No topics found."}</p>;
 if (isLoading) return <p>Loading... </p>;
-if (!topics) return <p>Something went wrong loading topics.</p>;
 
   return (
     <>
@@ -21,7 +20,7 @@ if (!topics) return <p>Something went wrong loading topics.</p>;
           <div className="topic-card-all" key={topic.slug}>
             <h3>{topic.slug.charAt(0).toUpperCase() + topic.slug.slice(1)}</h3>
             <p>{topic.description}</p>
-            <Link to={`/topic/${topic.slug}`}>
+            <Link to={`/topics/${topic.slug}`}>
                 <button className="profile-button">View Related Articles</button>
               </Link>
           </div>

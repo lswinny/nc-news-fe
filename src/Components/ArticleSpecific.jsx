@@ -11,12 +11,12 @@ function ArticleSpecific({username}) {
     handleVoteUp,
     handleVoteDown,
     hasVotedUp,
-    hasVotedDown
+    hasVotedDown,
+    thanksMsg
   } = useArticleSpecificData();
   
-  if (error) return <p>Error loading: {error.message}</p>;
+  if (error) return <p>Error: {error.message || "Article not found."}</p>;
   if (isLoading) return <p>Loading...</p>;
-  if (!article) return <p>Article not found.</p>;
   
   return (
     <><h2>{article.title}</h2>
@@ -31,6 +31,7 @@ function ArticleSpecific({username}) {
         <p>Votes: {votes}</p> 
         <button onClick={handleVoteUp} disabled={hasVotedUp || hasVotedDown}>👍</button>
         <button onClick={handleVoteDown} disabled={hasVotedUp || hasVotedDown}>👎</button>
+        {thanksMsg && <p> Thanks for your vote!</p>}
         </h3>
         <div className="article-body">
           <p>{article.body}</p>

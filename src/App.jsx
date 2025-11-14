@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import"./New.css";
 import { Routes, Route, data} from "react-router-dom";
+import NotFound from "./Components/NotFound";
 import Header from "./Components/Header";
 import LandingPage from "./Components/LandingPage";
 import Articles from "./Components/Articles";
@@ -40,7 +41,8 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/profile/:username" element={<UserProfile />} />
           <Route path="/topics" element={<Topics />} />
-          <Route path="/topic/:topic" element={<TopicArticles />} />
+          <Route path="/topics/:topic" element={<TopicArticles />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </>

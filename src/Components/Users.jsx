@@ -9,9 +9,8 @@ const {
     error
 } = useUsersData();
 
-  if (error) return <p>Error loading: {error.message}</p>;  
+  if (error) return <p>Error: {error.message || "No users found."}</p>;  
   if (isLoading) return <p>Loading... </p>;
-  if (!users) return <p>Something went wrong loading users.</p>;
 
   return (
     <>

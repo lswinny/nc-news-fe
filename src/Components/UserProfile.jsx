@@ -7,9 +7,8 @@ const {
     error,
   } = useUserProfileData();
 
-    if (error) return <p>Error loading: {error.message}</p>;  
+    if (error) return <p>Error: {error.message || "User not found."}</p>;  
     if(isLoading) return <p>Loading...</p>;
-    if (!user) return <p>User not found</p>; 
     
     return (
     <>
