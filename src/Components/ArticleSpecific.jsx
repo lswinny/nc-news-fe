@@ -1,55 +1,20 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getArticlesById, getCommentsByArticleId, patchArticleVotes } from "../api";
+import useArticleSpecificData from "../Hooks/useArticleSpecificData";
 import Comments from "./Comments";
 
 function ArticleSpecific({username}) {
-  const { article_id } = useParams();
-  const [article, setArticle] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [votes, setVotes] = useState(0);
-  const[hasVotedUp, setHasVotedUp] = useState(false);
-  const [hasVotedDown, setHasVotedDown] = useState(false);
+  const {
+    article_id,
+    article,
+    isLoading,
+    error,
+    votes,
+    handleVoteUp,
+    handleVoteDown,
+    hasVotedUp,
+    hasVotedDown
+  } = useArticleSpecificData();
   
-
-  useEffect(() => {
-    getArticlesById(article_id).then((data) => {
-      setArticle(data.article);
-      setVotes(data.article.votes);
-      setIsLoading(false);     
-    })
-  .catch((error) => {
-   console.error("Error fetching article:", error);
-   setArticle(null);
-   setIsLoading (false);
-  })
-}, [article_id])
-
-  const handleVoteUp = () => {
-    if(hasVotedUp || hasVotedDown) return;
-    patchArticleVotes(article_id, 1)
-    .then((data) => {
-      setVotes(data.article.votes)
-      setHasVotedUp(true)
-  })
-      .catch((error) => {
-        console.error("Vote failed:", error)
-      })
-  };
-
-  const handleVoteDown = () => {
-    if(hasVotedUp || hasVotedDown) return;
-    patchArticleVotes(article_id, -1)
-    .then((data) => {
-      setVotes(data.article.votes)
-      setHasVotedDown(true)
-  })
-      .catch((error) => {
-        console.error("Vote failed:", error)
-      })
-  };
-  
-
+  if (error) return <p>Error loading: {error.message}</p>;
   if (isLoading) return <p>Loading...</p>;
   if (!article) return <p>Article not found.</p>;
   

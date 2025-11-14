@@ -1,78 +1,23 @@
-import { useEffect, useState } from "react";
-import { getCommentsByArticleId, postComment, deleteComment, getUsers } from "../api";
+import useCommentsData from "../Hooks/useCommentsData";
 
 function Comments({article_id, username}) {
-  const [comments, setComments] = useState([])
-  const [isLoading, setIsLoading] = useState(true);
-  const [newCommentBody, setNewCommentBody] = useState("")
-  const [isLoadingPosting, setIsLoadingPosting] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if(newCommentBody) {
-      setError(null);
-    }
-  }, [newCommentBody])
+  const {
+    comments,
+    isLoading,
+    fetchError,
+    formError,
+    newCommentBody,
+    setNewCommentBody,
+    isLoadingPosting,
+    isDeleting,
+    handlePostComment,
+    handleDeleteComment,
+  } = useCommentsData({article_id, username});
 
-  useEffect(() => {
-  getCommentsByArticleId(article_id)
-  .then((data) => {
-    setComments(data.comments);
-    setIsLoading(false);
-  })
-  .catch((error) => {
-    console.error("Error fetching comments:");
-    setComments(null);
-    setIsLoading(false);
-  })
-}, [article_id])
-
-const handlePostComment = (event) => {
-    event.preventDefault();
-    if(newCommentBody.length <2){
-      setError("Comment must be at least 2 characters.")
-      return;
-    }
-    setIsLoadingPosting(true);
-    setError(null);
-
-    postComment(article_id, {
-      author: username,
-      body: newCommentBody.trim(),
-    })
-    .then(() => {
-      return getCommentsByArticleId(article_id)
-    })
-    .then(({comments}) => {
-      setComments(comments);
-      setNewCommentBody("");
-      setIsLoadingPosting(false)
-  })
-      .catch((error) => {
-        console.error("Unable to post comment:", error);
-        setError("Failed to post comment. Please try again.")
-        setIsLoadingPosting(false);
-      })
-  };
-
-  const handleDeleteComment = (comment_id) => {
-    setIsDeleting(true);
-    setError(null);
-    deleteComment(comment_id)
-    .then(() => {
-      setComments((prevComments) => prevComments.filter((comment) => comment.comment_id !== comment_id))
-      setIsDeleting(false)
-       })
-      .catch((error) => {
-        console.error("Unable to delete comment:", error)
-        setError("Failed to delete comment. Please try again.")
-        setIsDeleting(false);
-      })
-  };
-  
-
-  if ( isLoading) return <p>Loading comments...</p>;
+  if (fetchError) return <p>Error loading: {fetchError.message || fetchError}</p>;
+  if (isLoading) return <p>Loading comments...</p>;
+  if (!comments) return <p>No comments found.</p>;
   
   return (
     <>
@@ -89,7 +34,7 @@ const handlePostComment = (event) => {
             disabled={isLoadingPosting}
             ></input>
             <button type="submit" disabled={isLoadingPosting}>{isLoadingPosting ? "Posting..." : "Post Comment"}</button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {formError && <p style={{ color: "red" }}>{formError}</p>}
         </form>
         {comments.map((comment) => ( 
           <div className="single-comment-card" key={comment.comment_id}>

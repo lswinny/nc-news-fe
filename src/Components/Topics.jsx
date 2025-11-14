@@ -1,25 +1,15 @@
-import { useEffect, useState } from "react";
+import useTopicsData from "../Hooks/useTopicsData";
 import {Link} from "react-router-dom";
-import { getTopics } from "../api";
 
 function Topics () {
-    const [topics, setTopics] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        getTopics()
-        .then((data) => {
-            setTopics(data.topics)
-            setIsLoading(false);
-        })
-      .catch((error) => {
-        console.error("Error fetching Topics: ", error);
-        setTopics(null);
-        setIsLoading(false);
-      });
-  }, []);
+  const {
+    topics,
+    isLoading,
+    error,
+  } = useTopicsData();
 
-
+if (error) return <p>Error loading: {error.message}</p>;
 if (isLoading) return <p>Loading... </p>;
 if (!topics) return <p>Something went wrong loading topics.</p>;
 

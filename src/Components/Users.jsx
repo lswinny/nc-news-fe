@@ -1,24 +1,15 @@
-import { useEffect, useState } from "react";
+import useUsersData from "../Hooks/useUsersData";
 import { Link } from "react-router-dom";
-import { getUsers } from "../api";
 
 function Users() {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getUsers()
-      .then((data) => {
-        setUsers(data.users);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching users: ", error);
-        setUsers(null);
-        setIsLoading(false);
-      });
-  }, []);
+const {
+    users,
+    isLoading,
+    error
+} = useUsersData();
 
+  if (error) return <p>Error loading: {error.message}</p>;  
   if (isLoading) return <p>Loading... </p>;
   if (!users) return <p>Something went wrong loading users.</p>;
 

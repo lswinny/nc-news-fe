@@ -1,25 +1,6 @@
-import { useEffect, useState } from "react";
-import { getTopics } from "../api";
-import { useSearchParams } from "react-router";
+import useArticleFiltersData from "../Hooks/useArticleFiltersData";
 
-function ArticleFilters({ selectedTopic, sortBy, order }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [topics, setTopics] = useState([]);
-
-  useEffect(() => {
-    getTopics().then((data) => {
-      setTopics(data.topics);
-    });
-  }, []);
-
-  const handleChange = (newTopic, newSortBy, newOrder) => {
-    const params = new URLSearchParams();
-    if (newTopic) params.set("topic", newTopic);
-    if (newSortBy) params.set("sort_by", newSortBy);
-    if (newOrder) params.set("order", newOrder);
-    setSearchParams(params);
-  };
-
+function ArticleFilters({ selectedTopic, sortBy, order, handleChange, topics }) {
   return (
     <form className="article-filters">
       <label htmlFor="topic">Filter by Topic:</label>

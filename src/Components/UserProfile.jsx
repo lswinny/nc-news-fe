@@ -1,26 +1,13 @@
-import {useParams} from "react-router-dom";
-import {useState, useEffect} from "react";
-import { getUsers } from "../api";
+import useUserProfileData from "../Hooks/useUserProfileData";
 
 function UserProfile() {
-const {username} = useParams();
-const [user, setUser] = useState(null);
-const [isLoading, setIsLoading] = useState(true);
+const {
+    user,
+    isLoading,
+    error,
+  } = useUserProfileData();
 
-useEffect(() => {
-            getUsers(username)
-            .then((data) => {
-                const foundUser = data.users.find((i) => i.username === username);
-                setUser(foundUser)
-                setIsLoading(false)
-            })
-            .catch((error) => {
-                console.error("Error fetching user:", error)
-                setIsLoading(false);
-            })
-        }, [username])
-
-
+    if (error) return <p>Error loading: {error.message}</p>;  
     if(isLoading) return <p>Loading...</p>;
     if (!user) return <p>User not found</p>; 
     
