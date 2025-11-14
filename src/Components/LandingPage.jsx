@@ -14,7 +14,7 @@ useEffect(() => {
 
   return (
     <>
-      <h2>Landing Page welcomes you!</h2>
+    <section id="landing-buttons">
       <Link to="/articles">
         <button>View All Articles</button>
       </Link>
@@ -24,6 +24,7 @@ useEffect(() => {
       <Link to="/users">
         <button>View All Users</button>
       </Link>
+    </section>
     </>
   );
 }
