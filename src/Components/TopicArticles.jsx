@@ -4,7 +4,7 @@ import useTopicArticlesData from "../Hooks/useTopicArticlesData";
 function TopicArticles() {
   const { topic, articles, isLoading, error } = useTopicArticlesData();
 
-  if (error) return <p>Error: {error.message || "Topic not found."}</p>;
+  if (error) {return (<><p>{error.message || "Topic not found."}</p><Link to="/topics">Back to topics</Link></>)}
   if (isLoading) return <p>Loading...</p>;
   if (articles.length === 0) return <p>No articles found for this topic yet.</p>;
 

@@ -12,11 +12,16 @@ function useUserProfileData() {
     getUsers(username)
       .then((data) => {
         const foundUser = data.users.find((i) => i.username === username);
+        if (!foundUser){
+          throw new Error("User not found.")
+        }
         setUser(foundUser);
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching user:", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching user: ", error);
+        }
         setError(error);
         setIsLoading(false);
       });

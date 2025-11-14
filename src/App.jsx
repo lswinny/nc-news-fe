@@ -39,7 +39,7 @@ function App() {
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:article_id" element={<ArticleSpecific username={defaultUser?.username}/>} />
           <Route path="/users" element={<Users />} />
-          <Route path="/profile/:username" element={<UserProfile />} />
+          <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/topics/:topic" element={<TopicArticles />} />
           <Route path="*" element={<NotFound />} />

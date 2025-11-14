@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../api";
 
-function useArticlesData({selectedTopic, sortBy, order}) {
+function useArticlesData({ selectedTopic, sortBy, order }) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,9 @@ function useArticlesData({selectedTopic, sortBy, order}) {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching Articles: ", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching articles: ", error);
+        }
         setError(error);
         setArticles([]);
         setIsLoading(false);

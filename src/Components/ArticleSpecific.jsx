@@ -1,5 +1,6 @@
 import useArticleSpecificData from "../Hooks/useArticleSpecificData";
 import Comments from "./Comments";
+import {Link} from "react-router-dom";
 
 function ArticleSpecific({username}) {
   const {
@@ -15,7 +16,7 @@ function ArticleSpecific({username}) {
     thanksMsg
   } = useArticleSpecificData();
   
-  if (error) return <p>Error: {error.message || "Article not found."}</p>;
+  if (error) {return (<><p>{error.message || "Article not found."}</p><Link to="/articles">Back to articles</Link></>)}
   if (isLoading) return <p>Loading...</p>;
   
   return (

@@ -13,18 +13,20 @@ function useUsersData() {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching users: ", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching users: ", error);
+        }
         setError(error);
         setUsers(null);
         setIsLoading(false);
       });
   }, []);
 
-return {
+  return {
     users,
     isLoading,
-    error
-}
+    error,
+  };
 }
 
 export default useUsersData;

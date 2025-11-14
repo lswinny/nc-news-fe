@@ -23,8 +23,10 @@ function useCommentsData({ article_id, username }) {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching comments:");
-        setFormError(error)
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching comments: ", error);
+        }
+        setFormError(error);
         setComments(null);
         setIsLoading(false);
       });

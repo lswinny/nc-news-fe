@@ -1,5 +1,5 @@
 import useUserProfileData from "../Hooks/useUserProfileData";
-
+import {Link} from "react-router-dom";
 function UserProfile() {
 const {
     user,
@@ -7,7 +7,7 @@ const {
     error,
   } = useUserProfileData();
 
-    if (error) return <p>Error: {error.message || "User not found."}</p>;  
+    if (error || !user) {return (<><p>{error?.message || "User not found."}</p><Link to="/users">Back to users</Link></>)} 
     if(isLoading) return <p>Loading...</p>;
     
     return (

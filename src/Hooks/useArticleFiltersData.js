@@ -16,7 +16,9 @@ function useArticleFiltersData() {
         setTopics(data.topics);
       })
       .catch((error) => {
-        console.error("Error fetching topics:", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching topics: ", error);
+        }
         setError(error);
         setTopics([]);
         setIsLoading(false);

@@ -21,7 +21,7 @@ const {
             <div>
               <h3>Username: {user.username}</h3>
               <img src={user.avatar_url} alt={user.username} />
-              <Link to={`/profile/${user.username}`}>
+              <Link to={`/users/${user.username}`}>
                 <button className="profile-button">View Profile</button>
               </Link>
             </div>
