@@ -1,16 +1,37 @@
-# React + Vite
+# NC News Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the NC News project, built as part of a full-stack application. NC News is a React-based news app that allows users to browse topics and articles, filter and sort articles, vote on content, and view, post and delete comments. It has a responsive design that adapts to different screen sizes.
 
-Currently, two official plugins are available:
+---
+## Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Deployed version on Netlify: (https://nc-news-25.netlify.app)
 
-## React Compiler
+---
+## Backend Repository
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This frontend connects to a custom RESTful API. Backend Repo: (https://github.com/lswinny/nc-news-BE)
 
-## Expanding the ESLint configuration
+---
+##  Requirements
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Minimum Node version: `v24.8.0`  
+
+---
+## Run Locally
+# 1. Clone the repository
+git clone https://github.com/lswinny/nc-news-fe.git
+
+# 2. Navigate into the project directory
+cd nc-news-fe
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
+npm run dev
+
+---
+## About This Project
+
+This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
