@@ -31,6 +31,9 @@ npm install
 # 4. Start the development server
 npm run dev
 
+# 5. Redeploy with new changes (developer only)
+netlify deploy --prod
+
 ---
 ## About This Project
 
